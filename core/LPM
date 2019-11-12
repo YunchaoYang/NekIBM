@@ -1,0 +1,279 @@
+c ------------------------
+c MAIN PARTICLE STRUCTURES
+c ------------------------
+      parameter (lr=115,li=15)
+      common  /cpartr/ rpart(lr,llpart) 
+      common  /cparti/ ipart(li,llpart) 
+      common  /iparti/ n,nr,ni
+
+      common /ptpointers/ jrc,jpt,je0,jps,jpid1,jpid2,jpid3
+     >                   ,jai,jicx,jicy,jicz,nai
+     >			 , jrole, jqueen, jworker1, jnlm 	! ibm particles
+     >                   ,jr,jd,jx,jy,jz,jv0,ju0,jf0,jfusr,jfcol
+     >                   ,jfqs,jfun,jfiu,jtaup,jcd,jdrhodt,jre,jDuDt
+     >                   ,jtemp,jrho,jrhop,ja,jvol,jdp,jar,jx1,jx2,jx3
+     >                   ,jv1,jv2,jv3,ju1,ju2,ju3,nar,jvol1,jgam,jspl
+     >                   ,jtempf,jq0,jg0,jqqs,jquu,jcmiu,jrpe
+     >                   ,jangle0,jangvel0,jangvel1,jangvel2,jangvel3
+     >                   ,jtorque0, jtq_col
+     >			 ,jangle1,jangle2,jangle3
+c -------------------------
+c GHOST PARTICLE STRUCTURES
+c -------------------------
+      parameter (llpart_gp=26*llpart)
+      parameter (lrgp=14,ligp=7)
+      common /gp_pointsr/ rptsgp(lrgp,llpart_gp)
+      common /gp_pointsi/ iptsgp(ligp,llpart_gp)
+
+c     Ghost Queen marker 
+      parameter (lrgp_ibm=26, ligp_ibm=16)
+      common /gp_pointsr_ibm/ rptsgp_ibm(lrgp_ibm,llpart/20)
+      common /gp_pointsi_ibm/ iptsgp_ibm(ligp_ibm,llpart/20)
+
+      common /gp_lens/ nfptsgp,nigp,nrgp
+
+      common /nfpt_ibm/ nfptsgp_ibm,nigp_ibm,nrgp_ibm
+
+      common /gp_ptpointers/ jgpiic,jgpps,jgppt,jgpes,jgpicx,jgpicy
+     >                      ,jgpicz,jgpx,jgpy,jgpz,jgpfh,jgpvol,jgpspl
+     >                      ,jgpg0,jgpq0,jgpv0,jgprpe
+     >			    ,jgp_back,jgp_pid1,jgp_pid2,jgp_pid3
+     >			    ,jgp_role,jgp_queen,jgp_worker1,jgp_nlm
+     >			    ,jgp_ax, jgp_jx1
+     >			    ,jgp_angle0,jgp_angvel0,jgp_torque0  ! rotating
+c ----------------
+c PARTICLE OPTIONS
+c ----------------
+      common /part_options/ bc_part, two_way, red_interp,time_integ,
+     >                      part_force,time_delay,inject_rate,
+     >                      ipart_restartr,npro_method,npio_method,icmtp
+      integer bc_part(6),two_way, red_interp,time_integ,part_force(5)
+     >       ,time_delay,inject_rate,ipart_restartr,npro_method
+     >       ,npio_method,icmtp
+
+c -------------------
+c PARTICLE PARAMETERS
+c -------------------
+      common /part_paramsr/ dp, rho_p, tau_p,mu_0,tp_0,rsig,dfilt,
+     >                     ralphdecay,rxbo,rxco,cp_p,ksp,dt_part,
+     >                     e_rest,rspl,dp_std,ksp_wall,e_rest_wall
+      common /part_paramsi/ nw,nrandseed,nwe,lpm_endian
+      real   dp(2),rho_p,tau_p,mu_0,rsig,dfilt,ralphdecay,rxbo(2,3)
+     >      ,rxco(9),cp_p,tp_0,ksp,dt_part,e_rest, dp_std,ksp_wall
+     >      ,e_rest_wall
+      integer nw,nrandseed,nwe,lpm_endian
+
+c -------------------
+c USER AND OTHER DATA
+c -------------------
+      parameter (iptlen=20)
+      real   pttime(iptlen),ptdum(iptlen),xdrange(2,3),d2chk(3)
+      real   d2chk_ibm(3)
+      common /lpm_other/ pttime,ptdum,xdrange,d2chk,d2chk_ibm
+      real   lpmx_p(3),lpmvol_p,lpmvolfrac_p,lpmvolfrac_f,
+     >       lpmtau_p,lpmv_p(3),lpmv_f(3),lpmre_p,lpmmach_p,lpmvisc_f,
+     >       lpmdiam_p,lpmdens_p,lpmdens_f,lpmDuDt(3),lpmkappa_f,
+     >       lpmvdiff_pf,lpmforce(3),lpmheat,lpmtemp_p,lpmtemp_f,
+     >       lpmforcec(3)
+      common /lpm_partuser/ lpmx_p,lpmvol_p,lpmvolfrac_p,
+     >                      lpmvolfrac_f,lpmtau_p,lpmv_p,lpmv_f,lpmre_p,
+     >                      lpmmach_p,lpmvisc_f,lpmdiam_p,lpmdens_p,
+     >                      lpmdens_f,lpmDuDt,lpmkappa_f,lpmvdiff_pf,
+     >                      lpmforce,lpmheat,lpmtemp_p,lpmtemp_f,
+     >                      lpmforcec
+      integer lpmi
+      common /lpm_partusei/ lpmi
+
+c ----------------------
+c GHOST PARTICLE MAPPING
+c ----------------------
+      integer  el_face_num(18),el_edge_num(36),el_corner_num(24),
+     >                            nfacegp, nedgegp, ncornergp
+      common /neighbor_el_number/ el_face_num,el_edge_num,el_corner_num,
+     >                            nfacegp, nedgegp, ncornergp
+
+      parameter (ngpvc  = 6)
+      parameter (nbox_gp=20*llpart_gp)
+      integer nlist, ngp_valsp(ngpvc,nbox_gp),
+     >        ndxgp,ndygp,ndzgp, mod_gp_grid(lx1,ly1,lz1,lelt,4)
+      common /new_gpi/ nlist,ndxgp,ndygp,ndzgp,ngp_valsp,mod_gp_grid 
+      real    rdxgp, rdygp, rdzgp 
+      common /new_gpr/ rdxgp, rdygp, rdzgp
+      
+      integer nlist_ibm, ngp_valsp_ibm(ngpvc,nbox_gp)
+     >	   , ndxgp_ibm, ndygp_ibm, ndzgp_ibm
+     >     , mod_gp_grid_ibm(lx1,ly1,lz1,lelt,4) 
+
+      common /gp_ibm/
+     > nlist_ibm,ngp_valsp_ibm,ndxgp_ibm,ndygp_ibm
+     > 	   , ndzgp_ibm, mod_gp_grid_ibm
+      real rdxgp_ibm, rdygp_ibm, rdzgp_ibm
+      common /rdgp_ibm / rdxgp_ibm, rdygp_ibm, rdzgp_ibm
+
+c ----------------------------------------------
+c EULERIAN FIELD PROPERTIES FOR TWO-WAY COUPLING
+c ----------------------------------------------
+      common /part_two_way/  ptw
+      real                   ptw(lx1,ly1,lz1,lelt,8)
+
+      common /fundpart/ rhs_fluidp
+      real rhs_fluidp(lx1,ly1,lz1,lelt,8)
+
+c ---------------
+c FOR EASY MPI IO
+c ---------------
+      parameter (lrf=72,lif=4)
+      integer nfpts,nrf,nfi,ifpts(lif,llpart)
+      real*4 rfpts(lrf,llpart)
+      common /fptspartr/ rfpts
+      common /fptsparti/ ifpts
+      common /fptspartn/ nrf,nif
+
+c --------------------------------
+c DEM WALLS - PLANES AND CYLINDERS
+c --------------------------------
+      parameter (n_walls = 9)
+      character*16 mystringpart
+      integer np_walls,nc_walls
+      real    plane_wall_coords(6,n_walls)
+     >       ,cyl_wall_coords(7,n_walls)
+      common /rbc_part/ plane_wall_coords,cyl_wall_coords
+      common /ibc_part/ np_walls,nc_walls
+      common /cbc_part/ mystringpart
+
+
+c------------------------------------
+c IBM control parameters
+c------------------------------------
+
+      integer:: ifIBM
+     $         , IBM_Particle_shape 
+     $	       , IBM_marker_shape
+     $	       , num_ibm_shape
+     $	       , ntot_markers 
+     $	       , num_of_IBMpart
+     $	       , ibm_neighbr_bin 
+     $	       , n_IBMpart
+     $         , ibm_debug , ibm_debug_worker
+     $	       , ibm_debug_bin, ibm_debug_col
+     $	       , ibm_rotation
+     $	       , non_spherical
+     $	       , Periodic_Set
+     $	       , ioutput_queens
+     
+      common/IBMpart_control/ifIBM
+     $		, IBM_Particle_shape
+     $	 	, IBM_marker_shape
+     $	 	, ntot_markers
+     $	 	, num_of_IBMpart
+     $	 	, ibm_neighbr_bin
+     $	        , n_IBMpart
+     $		, ibm_debug, ibm_debug_worker
+     $	        , ibm_debug_bin
+     $		, ibm_rotation
+     $          , non_spherical
+     $          , Periodic_Set
+     $		, ioutput_debug
+     $		, ioutput_queens
+c------------------------------------
+      PARAMETER(num_p=llpart, n_ll=llpart)
+      real ibm_center(num_p, 3),ibm_diam(num_p),ibm_vel_init(num_p,3)
+      real ibm_omg_init(num_p,3), ibm_the_init(num_p,3)
+      integer n_l (num_p)
+      real    n_dh(num_p)
+      real visco, reynods, rpi
+      common/ibm_shape_parameters/
+     $   ibm_center
+     $ , ibm_diam
+     $ , n_l
+     $ , n_dh
+     $ , rpi
+     $ , ibm_vel_init 
+     $ , ibm_omg_init, ibm_the_init
+c------------------------------------
+      integer ipart_moving
+      common /my_ipart_moving/ipart_moving
+
+      integer interm_vel
+      common /interm_vel/interm_vel
+
+c------------------------------------     
+      integer ibm_force_gate
+      common/ibm_force/ibm_force_gate
+
+c------------------------------------
+
+      real ibm_dragfx, ibm_dragfy, ibm_dragfz, dragsum, dragsum_tot
+      common /dragforce_ibm/ibm_dragfx, ibm_dragfy, ibm_dragfz
+     $ ,dragsum, dragsum_tot 
+
+c--------------------------------------------------------
+c Intermediate velocity calculation - explicit 
+c--------------------------------------------------------
+      real conv_x (lx1,ly1,lz1,lelt)
+      real conv_y (lx1,ly1,lz1,lelt)
+      real conv_z (lx1,ly1,lz1,lelt)
+      common /conv_item/ conv_x, conv_y, conv_z
+
+       real
+     $            dvxdx(lx1,ly1,lz1,lelt)
+     $		, dvxdy(lx1,ly1,lz1,lelt)
+     $		, dvxdz(lx1,ly1,lz1,lelt) 
+     $		, dvydx(lx1,ly1,lz1,lelt)
+     $		, dvydy(lx1,ly1,lz1,lelt)
+     $		, dvydz(lx1,ly1,lz1,lelt)
+     $		, dvzdx(lx1,ly1,lz1,lelt)
+     $		, dvzdy(lx1,ly1,lz1,lelt)
+     $		, dvzdz(lx1,ly1,lz1,lelt)
+     $          , dpdx_interm(lx1,ly1,lz1,lelt)
+     $          , dpdy_interm(lx1,ly1,lz1,lelt)
+     $          , dpdz_interm(lx1,ly1,lz1,lelt)
+
+      common /interm_grad/ dvxdx, dvxdy, dvxdz, dvydx, dvydy
+     $     ,dvydz, dvzdx, dvzdy, dvzdz
+     $     ,dpdx_interm,dpdy_interm,dpdz_interm 
+
+      real   laplacianV1(lx1,ly1,lz1,lelt)
+     &      ,laplacianV2(lx1,ly1,lz1,lelt)
+     &	    ,laplacianV3(lx1,ly1,lz1,lelt)
+      common /lap_terms/laplacianV1,laplacianV2,laplacianV3
+      
+      real vx_tilde     (lx1,ly1,lz1,lelv) ! intermediate velocity for IBM direct forcing
+     $	  ,vy_tilde     (lx1,ly1,lz1,lelv)
+     $	  ,vz_tilde     (lx1,ly1,lz1,lelv)
+
+c--------------------------------------------------------
+c Intermediate velocity calculation - implicit
+c--------------------------------------------------------
+
+      real vx_tmp 	(lx1,ly1,lz1,lelv)
+     $	  ,vy_tmp	(lx1,ly1,lz1,lelv)
+     $	  ,vz_tmp  	(lx1,ly1,lz1,lelv)
+     $    ,vxlag_tmp  	(lx1,ly1,lz1,lelv,2)
+     $    ,vylag_tmp  	(lx1,ly1,lz1,lelv,2)
+     $    ,vzlag_tmp  	(lx1,ly1,lz1,lelv,2)
+     
+      real abx1_tmp   (lx1,ly1,lz1,lelv)
+     $    ,aby1_tmp   (lx1,ly1,lz1,lelv)
+     $    ,abz1_tmp   (lx1,ly1,lz1,lelv)
+     $    ,abx2_tmp   (lx1,ly1,lz1,lelv)
+     $    ,aby2_tmp   (lx1,ly1,lz1,lelv)
+     $    ,abz2_tmp   (lx1,ly1,lz1,lelv)
+
+      common /interm_velocity/ vx_tilde,vy_tilde
+     $ , vz_tilde
+     $ , vx_tmp,vy_tmp,vz_tmp
+     $ , vxlag_tmp ,vylag_tmp ,vzlag_tmp
+     $ , abx1_tmp, aby1_tmp, abz1_tmp 
+     $ , abx2_tmp, aby2_tmp, abz2_tmp 
+
+      integer ibm_gravity
+      real ibm_rgv(3)
+      common /ibm_gravity/ ibm_gravity 
+      common               ibm_rgv
+     
+c     forced moving parameters
+      real rvpx_force, rvpy_force, rvpz_force
+      real ravx_force, ravy_force, ravz_force
+      common /force_moving/rvpx_force, rvpy_force, rvpz_force
+     $      ,ravx_force, ravy_force, ravz_force

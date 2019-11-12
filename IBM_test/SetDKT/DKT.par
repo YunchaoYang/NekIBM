@@ -1,0 +1,36 @@
+[GENERAL]
+variableDT    = yes
+dt            = 2.0E-4
+targetcfl     = 1.0
+writeinterval = 100
+numsteps      = 5000
+
+[VELOCITY]
+density = 1.00
+viscosity = 0.01
+residualtol = 1E-8
+
+[PARTICLE]
+npart = 705
+io = -1
+distributebox = -0.02, 0.02, 0.0, 0.08, 0.0, 0.0
+diameter      = 8.0E-4
+density       = 1.14
+timestepper   = 1
+forceqs  = 5
+forceun  = 0
+coupling = 4
+filter   = 2.0
+alpha    = 1E-3
+spring   = 1000
+restitution = 0.98
+periodicx = no
+periodicy = yes
+periodicz = no
+nwallplane = 6
+wallp01 = 0.0,  1.0, 0.0, 0.0, 0.01, 0.0
+wallp02 = 0.0, -1.0, 0.0, 0.0, 4.0, 0.0
+wallp03 = 1.0,  0.0, 0.0, 0.0, 0.0, 0.0
+wallp04 =-1.0,  0.0, 0.0, 1.0, 0.0, 0.0
+wallp05 = 0.0,  0.0, 1.0, 0.0, 0.0, 0.0
+wallp06 = 0.0,  0.0,-1.0, 0.0, 0.0, 1.0

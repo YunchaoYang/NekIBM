@@ -1,0 +1,39 @@
+c ----- IBM -------
+
+c ---Lagrange Marker pointers
+
+      parameter(lr= , li =)
+
+
+c -------------------------
+c center particle structure
+c --------------------------
+      common /lag_ptpointers/ jrc,jpt,je0,jps,jpid1,jpid2,jpid3
+     >                   ,jai,jicx,jicy,jicz,nai
+     >                   ,jr,jd,jx,jy,jz,jv0,ju0,jf0,jfusr,jfcol
+     >                   ,jfqs,jfun,jfiu,jtaup,jcd,jdrhodt,jre,jDuDt
+     >                   ,jtemp,jrho,jrhop,ja,jvol,jdp,jar,jx1,jx2,jx3
+     >                   ,jv1,jv2,jv3,ju1,ju2,ju3,nar,jvol1,jgam,jspl
+     >                   ,jtempf,jq0,jg0,jqqs,jquu,jcmiu,jrpe
+
+
+
+
+
+
+
+
+c -------------------------
+c Lagrange Marker Options
+c -------------------------
+
+      common /Lag_Marker_option/
+
+
+
+c --------------------------
+c 
+c --------------------------
+
+
+
