@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------
 
 # source path 
-SOURCE_ROOT="$HOME/NekIBM"
+SOURCE_ROOT="../../../NekIBM"
 
 # Fortran/C compiler
 FC="mpif77 -mcmodel=large"

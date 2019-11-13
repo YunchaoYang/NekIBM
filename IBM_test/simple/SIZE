@@ -14,8 +14,8 @@ c
       parameter (lxd=10)               ! p-order for over-integration (dealiasing) 
       parameter (lx2=lx1-2)            ! polynomial order for pressure
 
-      parameter (lelg=72000) 
-      parameter (lpmin=8) 
+      parameter (lelg=8000) 
+      parameter (lpmin=4) 
       parameter (lpmax=1024)           ! max MPI ranks
       parameter (ldimt=3)              ! max auxiliary fields (temperature + scalars)
 
@@ -46,4 +46,4 @@ c automatically added by makenek
 
 c automatically added by makenek
       integer llpart
-      parameter(llpart = 4000 ) ! Allocation for particles 
+      parameter(llpart = 10000 ) ! Allocation for particles 
