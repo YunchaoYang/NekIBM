@@ -7,7 +7,7 @@
 SOURCE_ROOT="$HOME/NekIBM"
 
 # Fortran/C compiler
-FC="mpif77 -mcmodel=large"
+FC="mpif77"
 CC="mpicc"
 
 # pre-processor list (set to "?" to get a list of available symbols)
@@ -18,7 +18,7 @@ PPLIST="LPM"
 #-------------------------------------------------------------------------------
 
 # optional compiler flags
-#FFLAGS=""
+FFLAGS="-mcmodel=medium"
 #CFLAGS=""
 
 # optional linking flags
