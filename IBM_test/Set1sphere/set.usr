@@ -133,6 +133,12 @@ c      if (istep .gt. 10) part_force(1) = 5 ! ibm
 
       ifIBM                = 1
       ibm_debug            = 1	
+      ibm_debug_queen  = 0
+      ibm_debug_worker = 0
+      ibm_debug_bin    = 0
+      ibm_debug_col    = 0
+      ioutput_debug    = 0
+      ioutput_queen    = 1
 
       num_of_IBMpart       = 1  ! particle number
 
