@@ -1,7 +1,7 @@
 c ------------------------
 c MAIN PARTICLE STRUCTURES
 c ------------------------
-      parameter (lr=115,li=15)
+      parameter (lr=115,li=16)
       common  /cpartr/ rpart(lr,llpart) 
       common  /cparti/ ipart(li,llpart) 
       common  /iparti/ n,nr,ni
@@ -154,12 +154,12 @@ c------------------------------------
      $	       , num_of_IBMpart
      $	       , ibm_neighbr_bin 
      $	       , n_IBMpart
-     $         , ibm_debug , ibm_debug_worker
+     $         , ibm_debug, ibm_debug_queen, ibm_debug_worker
      $	       , ibm_debug_bin, ibm_debug_col
      $	       , ibm_rotation
      $	       , non_spherical
      $	       , Periodic_Set
-     $	       , ioutput_queens
+     $	       , ioutput_queen
      
       common/IBMpart_control/ifIBM
      $		, IBM_Particle_shape
@@ -169,12 +169,12 @@ c------------------------------------
      $	 	, ibm_neighbr_bin
      $	        , n_IBMpart
      $		, ibm_debug, ibm_debug_worker
-     $	        , ibm_debug_bin
+     $	        , ibm_debug_bin,ibm_debug_col
      $		, ibm_rotation
      $          , non_spherical
      $          , Periodic_Set
      $		, ioutput_debug
-     $		, ioutput_queens
+     $		, ioutput_queen
 c------------------------------------
       PARAMETER(num_p=llpart, n_ll=llpart)
       real ibm_center(num_p, 3),ibm_diam(num_p),ibm_vel_init(num_p,3)

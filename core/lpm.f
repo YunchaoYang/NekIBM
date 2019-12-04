@@ -63,7 +63,8 @@ c     call read_particle_input_par ! for lb code since no par file
             if(ipart(jrole,i).eq.1) iqt = iqt + 1 
             if(ipart(jrole,i).eq.2) ipt = ipt + 1 
          enddo
-         write(6,'(I4,A,3I6)') nid," contains ",n,ipt,iqt 
+         if(mod(istep,20).eq.0)
+     >    write(6,'(I4,A,3I6)') nid," contains ",n,ipt,iqt 
       endif
       
       if (two_way.gt.1) then
@@ -591,6 +592,9 @@ c----------------------------------------------------------------------
 
       rdeff_max = glmax(rdeff_max,1) 
       if(two_way.gt.2)rdeff_max = rdeff_max*2.0    ! force and motion influence
+
+      if(non_spherical.ne.0) rdeff_max = 3*rdeff_max
+
       rtmp_col  = rdeff_max        ! collisional zone of influence
       !print*, "rdeff_max, rtmp_col", rdeff_max,rtmp_col
 c      d2chk_ibm(1)  = rtmp*rdeff_max
@@ -1798,7 +1802,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          ntot0 = ntot0 + 1
       enddo
       ntot01 = iglsum(ntot0,1)
-      if(nid.eq.0) write(6,'(a,I6,6e12.4)') "HydroForce worker",
+      if(ibm_debug.eq.1 .and. nid.eq.0) 
+     $  write(6,'(a,I6,6e12.4)') "HydroForce worker",
      $  ntot01,dragsum_tot0, dragsum_tot1, dragsum_tot2
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 
@@ -7032,7 +7037,7 @@ c
       enddo     ! i_qt
 
        ! debug
-      if(ibm_debug.eq.1) then         
+      if(ibm_debug_queen.eq.1) then         
           if(istep.eq.1.and.nid.eq.0) then 
              write(6,'(A)')
      $      "QueenForce variables=istep,nid,i_qt,b_pid,b_jqueen,
@@ -7281,7 +7286,7 @@ c         open(unit=1122,file='Particle_hist.dat')
 
             do j = 0,2
                vintdiff_temp = abs(rpart(jv1+j,i)-rpart(jv0+j,i))
-     $          /abs(rpart(jv1+j,i))
+     $          / (abs(rpart(jv1+j,i)) + 1.0e-6)
                if( vintdiff_temp .ge. 0.2 .and.
      $             abs(rpart(jv1+j,i)) .ge. 1.0e-2    )
      $              write(6,'(A,7I7,21E12.4)') "WarnVel"
@@ -7292,7 +7297,6 @@ c         open(unit=1122,file='Particle_hist.dat')
      $              ,rpart(jx0+0,i), rpart(jx0+1,i), rpart(jx0+2,i)
             enddo
  
-            if(stage.eq.3) then
             if(ibm_rotation.eq.1) then
                write(6,'(A,6I7,21E12.4)')'Queent ',
      >       istep,nid,stage,i,ipart(jpid1,i),ipart(jpid2,i)
@@ -7309,7 +7313,7 @@ c         open(unit=1122,file='Particle_hist.dat')
      >      ,(rpart(jx0+j,i),j=0,2)
      >      ,(rpart(jf0+j,i),j=0,2)
             endif
-            endif
+
          enddo
       endif
 
@@ -7964,7 +7968,7 @@ c
       real c_fric, eta_t
       real ftq1(3), ftq2(3)
 
-      rDelta_c = 0.0 !(rrp1+rrp2) / 20.0 ! a threshhold
+      rDelta_c = (rrp1+rrp2) / 20.0 ! a threshhold
       rthresh  = rrp1 + rrp2 + rDelta_c
       rthresh2 = rthresh**2
 
@@ -8084,10 +8088,10 @@ c
             rv12t(j) = rv12t(j)/rv12t_mag ! unit tangential vector
          enddo
 
-         eta_t         = 1.5*eta       ! tangential damping coefficient  
-         c_fric        = 0.092                  ! friction coefficient 
+         eta_t         = 0.5*eta  ! tangential damping coefficient,navarro2013  
+         c_fric        = 0.10 !0.092 ! friction coefficient 
          rtmag_term1   = c_fric*abs(rnmag)
-         kt            = ksp*c_fric ! tangential spring constant 
+         kt            = ksp*2.0/7.0 ! tangential spring constant,navarro2013 
          rdelta_t      = 0.0  ! tangential displacement, not known 
          rtmag_term2   = abs(eta_t*rv12t_mag + kt*rdelta_t)
          rtmag    = min(rtmag_term1, rtmag_term2) ! tangential force
@@ -8448,7 +8452,7 @@ c----------------------------------------------------------------------
 
       subroutine periodic_collide_check
 c     For particle collision in periodic boundary conditions
-c     update rx2 based on both particle's bins
+c     update rx2 (icx2, icy2, icz2) based on both particle's bins
       ! (icx1, icy1, icz1) 
       ! (icx2, icy2, icz2)
       include 'SIZE'
