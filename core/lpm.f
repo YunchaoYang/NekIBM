@@ -997,7 +997,6 @@ c     should we inject particles at this time step?
      $   write(6,'(I6,A,I6,A)') nid," receives "
      $        ,nfptsgp_ibm," Ghost Queen"
 
-         if(ioutput_queen.eq.1)call output_queens
 
          ! update worker location ( follow send ghost queen markers )
          if(ipart_moving.ge.1) then
@@ -1032,6 +1031,8 @@ c     should we inject particles at this time step?
          ptdum(14) = dnekclock()
          call IBM_part_forcing
          pttime(14) = pttime(14) + dnekclock() - ptdum(14)
+
+         if(ioutput_queen.eq.1)call output_queens
 
          ptdum(15) = dnekclock()
          if(ipart_moving.ge.1) call IBM_part_integrate
@@ -8387,10 +8388,26 @@ c----------------------------------------------------------------------
          jjp    = floor((ryval-xdrange(1,2))/rdygp_ibm)
          kkp    = floor((rzval-xdrange(1,3))/rdzgp_ibm)
 
-         write(pth,8347) istep,stage
-     $        ,ipart(jpid1,i),ipart(jpid2,i),ipart(jpid3,i)
-     $        ,ipart(jqueen,i),iip,jjp,kkp
-     $        ,(rpart(jx+j,i),j=0,2),(rpart(jv0+j,i),j=0,2)
+         if(ibm_rotation.eq.1) then
+            write(pth,8347) istep,stage
+     $           ,ipart(jpid1,i),ipart(jpid2,i),ipart(jpid3,i)
+     $           ,ipart(jqueen,i),iip,jjp,kkp
+     $           ,(rpart(jx+j,i), j=0,2)
+     $           ,(rpart(jv0+j,i),j=0,2)
+     $           ,(rpart(jf0+j,i),j=0,2)
+     >           ,(rpart(jangvel0+j,i),j=0,2)
+     >           ,(rpart(jangle0+j,i), j=0,2)
+     >           ,(rpart(jtorque0+j,i),j=0,2)
+
+         else
+            write(pth,8347) istep,stage
+     $           ,ipart(jpid1,i),ipart(jpid2,i),ipart(jpid3,i)
+     $           ,ipart(jqueen,i),iip,jjp,kkp
+     $           ,(rpart(jx+j,i), j=0,2)
+     $           ,(rpart(jv0+j,i),j=0,2)
+     $           ,(rpart(jf0+j,i),j=0,2)
+         endif
+
       enddo
  8347 FORMAT(9I6,10f12.6)
 

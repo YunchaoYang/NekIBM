@@ -103,11 +103,16 @@ c-----------------------------------------------------------------------
          ibm_diam(nn) = 0.01
       enddo
 
+      if (istep.gt.1 .and. mod(istep,iostep).eq.0) then
+            call  divergence_vel
+      endif
+
       interm_vel = 1
       !     =  0 use previous step veloicity;
       !     = 1 explicit;
       !     = 2 implicit
       if(interm_vel.ge.1) call ibm_interm_vel
+
 
       return
       end
@@ -599,3 +604,49 @@ C
       RETURN
       END
 c-----------------------------------------------------------------------
+
+
+c---------------------------------------------------------------------	
+      subroutine divergence_vel
+c---------------------------------------------------------------------
+c     compute divergence of velocity for check
+c     Output: divergence
+
+        include 'SIZE'
+	include 'TOTAL'
+	include 'LPM'
+
+        parameter(lt=lx1*ly1*lz1*lelt)
+
+	real divel (lt)
+        real vort(lt,3),w1(lt),w2(lt)
+        real l2(lt)
+        
+        call comp_vort3(vort,w1,w2,vx,vy,vz)
+        call lambda2(l2)
+
+        itmp = 1
+        call outpost2(vort(1,1),  ! dvx/dx
+     >                vort(1,2),  ! dvy/dy
+     >                vort(1,3),  ! dvz/dz
+     >                l2(1),      ! div(V)
+     >                l2(1),      ! div(V)
+     >                itmp          ,        
+     >              'vort')
+
+        call rzero(divel,lt)
+        call gradm1(dvxdx,dvxdy,dvxdz,vx) ! compute grad of dudx, dudy, dudz 
+        call gradm1(dvydx,dvydy,dvydz,vy) ! compute grad of dvdx, dvdy, dvdz 
+        call gradm1(dvzdx,dvzdy,dvzdz,vz) ! compute grad of dwdx, dwdy, dwdz  
+	call add4  (divel, dvxdx, dvydy, dvzdz, lt)
+
+        call outpost2(dvxdx(1,1,1,1),  ! dvx/dx
+     >                dvydy(1,1,1,1),  ! dvy/dy
+     >                dvzdz(1,1,1,1),  ! dvz/dz
+     >                divel(1),  ! div(V)
+     >                l2(1),  ! div(V)
+     >                itmp          ,        
+     >              'div')
+
+      return 
+      end subroutine divergence_vel
