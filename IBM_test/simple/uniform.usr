@@ -120,7 +120,15 @@ c-----------------------------------------------------------------------
 c      if (istep .le. 50) part_force(1) = 4 ! particle drag
 c      if (istep .gt. 10) part_force(1) = 5 ! ibm
 
-       ifIBM = 1
+      ifIBM = 1
+      ibm_debug     = 1
+      ibm_debug_queen  = 0
+      ibm_debug_worker = 0
+      ibm_debug_bin    = 0
+      ibm_debug_col    = 0
+      ioutput_debug    = 0
+      ioutput_queen    = 1
+
       num_of_IBMpart       = 1  ! particle number
       IBM_Particle_shape   = 2  ! Particle type 1 - 2D circular disk, 2 3D sphere;
       IBM_marker_shape     = 2  ! marker volume 1 - 2D circular disk, 2 - sphere, 0 traditional particle
