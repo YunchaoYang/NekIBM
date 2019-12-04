@@ -1802,7 +1802,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          ntot0 = ntot0 + 1
       enddo
       ntot01 = iglsum(ntot0,1)
-      if(ibm_debug.eq.1 .and. nid.eq.0) 
+      if(ibm_debug_worker.eq.1 .and. nid.eq.0) 
      $  write(6,'(a,I6,6e12.4)') "HydroForce worker",
      $  ntot01,dragsum_tot0, dragsum_tot1, dragsum_tot2
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
