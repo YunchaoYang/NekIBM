@@ -168,48 +168,8 @@ c-----------------------------------------------------------------------
       include 'LPM'
       integer  e,f
 
-      common /bed_measures/ rpavg,ruy
-      real pm1(lx1,ly1,lz1,lelt,3)
-
-      nlxyze = nx1*ny1*nz1*nelt
-      if (lx2 .ne. lx1) then
-         call mappr(pm1(1,1,1,1,1),pr,pm1(1,1,1,1,2),pm1(1,1,1,1,3))
-      else
-         call copy(pm1(1,1,1,1,1),pr(1,1,1,1),nlxyze)
-      endif
-
-      rval = 0.0
-      rpavg = 0.0
-      rphiavg = 0.0
-      icount = 0.0
-
-      do i=1,nlxyze
-         if (abs(ym1(i,1,1,1)-rval) .lt. 1E-12) then
-            rpavg = rpavg + pm1(i,1,1,1,1)
-            rphiavg = rphiavg + (1.0 - ptw(i,1,1,1,4))
-            icount = icount + 1
-          endif
-      enddo
-
-      icount = iglsum(icount,1)
-      rpavg = glsum(rpavg,1)
-      rphiavg = glsum(rphiavg,1)
-      rpavg = rpavg/icount
-      rphiavg = rphiavg/icount
-
-      if (nid .eq. 0) then
-      if(mod(istep,iostep).eq.0.or. istep.eq.1) then
-         write(6,*) 'Bed_inlet_velocity', istep, ruy
-         write(6,*) 'Bed_inlet_pressure', istep, rpavg
-         write(6,*) 'Bed_inlet_fvolfrac', istep, rphiavg
-      endif
-      endif
-
       ifxyo=.true.
       if (istep.gt.1) ifxyo=.false.
-      
-c      if (istep .le. 50) part_force(1) = 4 ! particle drag
-c      if (istep .gt. 10) part_force(1) = 5 ! ibm
 
       ifIBM	= 1
       ibm_debug = 1
