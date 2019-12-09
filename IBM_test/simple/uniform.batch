@@ -1,0 +1,29 @@
+#!/bin/bash
+#SBATCH --job-name=simple
+#SBATCH --mail-type=NONE
+#SBATCH --qos=ccmt
+#SBATCH --account=ccmt
+#SBATCH --mail-user=hityangsir@ufl.edu
+#SBATCH --ntasks=128
+#SBATCH --nodes=8
+#SBATCH --cpus-per-task=1
+#SBATCH --distribution=cyclic:cyclic
+#SBATCH --mem-per-cpu=1gb
+#SBATCH --time=4-00:00:00
+#SBATCH --output=logfile_%j.out
+#SBATCH --partition=hpg2-compute
+
+cd `pwd`
+echo uniform > SESSION.NAME
+echo `pwd`'/' >> SESSION.NAME
+echo '#################################################################'
+echo '#################################################################'
+echo Running on $SLURM_JOB_NUM_NODES nodes with $SLURM_NTASKS tasks.
+echo '#################################################################'
+echo '#################################################################'
+module load intel/2017
+module load openmpi/3.0.0
+
+srun --mpi=pmix_v1 ./nek5000
+sleep 5
+exit 0;

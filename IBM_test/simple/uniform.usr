@@ -103,7 +103,7 @@ c-----------------------------------------------------------------------
          ibm_diam(nn) = 0.01
       enddo
 
-      if (istep.gt.1 .and. mod(istep,iostep).eq.0) then
+      if (mod(istep,iostep).eq.0) then
             call  divergence_vel
       endif
 
