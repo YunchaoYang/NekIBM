@@ -8372,6 +8372,9 @@ c----------------------------------------------------------------------
       include 'TOTAL'
       include 'LPM'
 
+      integer              stage,nstage
+      common /tstepstage/ stage,nstage
+
       integer pth
       character*20 filename
       write(filename,'(A6,I5.5,A4)') 'QP', nid,".dat"
@@ -8419,6 +8422,8 @@ c----------------------------------------------------------------------
       include 'SIZE'
       include 'TOTAL'
       include 'LPM'
+      integer              stage,nstage
+      common /tstepstage/ stage,nstage
 
       integer pth
       character*20 filename
