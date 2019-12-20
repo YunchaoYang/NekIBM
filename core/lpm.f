@@ -8377,7 +8377,7 @@ c----------------------------------------------------------------------
 
       integer pth
       character*20 filename
-      write(filename,'(A6,I5.5,A4)') 'QP', nid,".dat"
+      write(filename,'(A,I5.5,A4)') 'QP', nid,".dat"
       pth = 2666+nid
       open(unit=pth,file=filename,form="formatted",access='stream')
 
@@ -8412,7 +8412,7 @@ c----------------------------------------------------------------------
          endif
 
       enddo
- 8347 FORMAT(9I6,10f12.6)
+ 8347 FORMAT(9I6,20f12.4)
 
       return
       end

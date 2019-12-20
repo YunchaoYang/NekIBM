@@ -88,6 +88,7 @@ c-----------------------------------------------------------------------
       ibm_debug_col    = 0
       ioutput_debug    = 0
       ioutput_queen    = 1
+      ibm_rotation     = 0
 
       num_of_IBMpart       = 1  ! particle number
       IBM_Particle_shape   = 2  ! Particle type 1 - 2D circular disk, 2 3D sphere;
