@@ -1,0 +1,6 @@
+SOURCE_ROOT=../../../NekIBM
+FC=mpif77 -mcmodel=large
+FFLAGS= -r8 -fpconstant -fpp
+CC=mpicc
+CFLAGS=
+PPLIST=LPM MPI UNDERSCORE TIMER

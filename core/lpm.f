@@ -2011,7 +2011,7 @@ c seach where is the queen?
 !         print*, "Diagnostic ouput end", nid
 !         call exitt
 !      endif
-      
+
 c     debug
       if(ibm_debug .eq. 1) then
          do i_qt = 1,n
@@ -7204,8 +7204,6 @@ c     move data to previous positions, note, differnt reprentation for jv1, jv2,
             rIzy = 0.0
             rIzz = rm_1 / 5 * (r_1**2 + r_2**2)
             
-            if(i.eq.1.and.istep.eq.1)print*,"moment of inertia:"
-     >           ,rm_1,r_1,r_2,r_3, rIzz
             do j=0,ndim-1
                ! add rates of change of angular momentum, Uhlmann 2005, Eq. (B.4)
                romegac  = (rpart(jangvel1+j,i) - rpart(jangvel2+j,i))/dt ! Method2,explicit calculate rate of change of angular momentum
@@ -7214,6 +7212,9 @@ c     move data to previous positions, note, differnt reprentation for jv1, jv2,
 
                rpart(jtorque0+j,i) = rpart(jtorque0+j,i)/rIzz ! temporally for 2D rotation
             enddo
+            if(istep.le.10) print*,"moment of inertia:"
+     >           , rIzz, (rpart(jtorque0+j,i),j=0,2)
+
          enddo
       endif
 
@@ -7267,6 +7268,19 @@ c     all rk3 stages items --------------------------------------------
          endif
 
       enddo
+
+      if(ibm_translation .eq. -1) then ! disable translation
+         do i=1,n
+            if(ipart(jrole,i) .ne. 1) cycle
+            rpart(jx0  ,i) = kv_stage_p(i,1) 
+            rpart(jx0+1,i) = kv_stage_p(i,2) 
+            rpart(jx0+2,i) = kv_stage_p(i,3) 
+            rpart(jv0  ,i) = kv_stage_p(i,4) 
+            rpart(jv0+1,i) = kv_stage_p(i,5) 
+            rpart(jv0+2,i) = kv_stage_p(i,6) 
+         enddo
+      endif
+
       elseif(ipart_moving .eq. 2) then
          call ibm_part_force_moving_ibm
       else

@@ -156,7 +156,7 @@ c------------------------------------
      $	       , n_IBMpart
      $         , ibm_debug, ibm_debug_queen, ibm_debug_worker
      $	       , ibm_debug_bin, ibm_debug_col
-     $	       , ibm_rotation
+     $	       , ibm_rotation, ibm_translation
      $	       , non_spherical
      $	       , Periodic_Set
      $	       , ioutput_queen
@@ -170,7 +170,7 @@ c------------------------------------
      $	        , n_IBMpart
      $		, ibm_debug, ibm_debug_worker
      $	        , ibm_debug_bin,ibm_debug_col
-     $		, ibm_rotation
+     $		, ibm_rotation, ibm_translation
      $          , non_spherical
      $          , Periodic_Set
      $		, ioutput_debug
