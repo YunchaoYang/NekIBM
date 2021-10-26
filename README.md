@@ -11,7 +11,6 @@ Nek5000 is a fast and scalable open source CFD solver.
 ## Release Notes
 Make sure to read the [release notes](https://github.com/Nek5000/Nek5000/blob/master/RELEASE.md) before using the code.
 
-
 ## Documentation
 
 Visit the official Nek5000  [User's Guide](http://Nek5000.github.io/NekDoc/).
