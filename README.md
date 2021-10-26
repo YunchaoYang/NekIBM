@@ -18,9 +18,9 @@ Visit the official Nek5000  [User's Guide](http://Nek5000.github.io/NekDoc/).
 
 ## Pubslications:
 
-[2021 Journal of Supercomputing](https://link.springer.com/article/10.1007/s11227-020-03371-2)
-[2021 Physical Review Fluids](https://journals.aps.org/prfluids/abstract/10.1103/PhysRevFluids.6.104306)
-
+- [2021 Journal of Supercomputing](https://link.springer.com/article/10.1007/s11227-020-03371-2)
+- [2021 Physical Review Fluids](https://journals.aps.org/prfluids/abstract/10.1103/PhysRevFluids.6.104306)
+- [2021 Theo. Comp. Fluid. Dyn.](https://arxiv.org/pdf/2005.05363)
 
 ## Troubleshooting
 
