@@ -1,6 +1,6 @@
 # NekIBM
-This is a implementation of Scalable Immersed Boundary Method on the Spectral Element Method. The code is based on Nek5000 developped at ANL.
-Nek5000 is a fast and scalable open source CFD solver developped by ANL.
+This is an implementation of Immersed Boundary Method for for exascale simulation of multiphase flow based on the Spectral Element Method Nek5000/CMTnek code. The Nek5000 was developped at ANL and CMTnek from University of Florida.
+
 
 | **`Short Tests`** | **`Examples`** |
 |-----------------|---------------------|
@@ -16,6 +16,12 @@ Make sure to read the [release notes](https://github.com/Nek5000/Nek5000/blob/ma
 
 Visit the official Nek5000  [User's Guide](http://Nek5000.github.io/NekDoc/).
 
+## Pubslications:
+
+[2021 Journal of Supercomputing](https://link.springer.com/article/10.1007/s11227-020-03371-2)
+[2021 Physical Review Fluids](https://journals.aps.org/prfluids/abstract/10.1103/PhysRevFluids.6.104306)
+
+
 ## Troubleshooting
 
 If you run into problems compiling, installing, or running Nek5000, first check the User's Guide. If you are not able to find a solution to your problem there, please send a message to the User's Group [mailing list](https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users).
@@ -23,18 +29,7 @@ If you run into problems compiling, installing, or running Nek5000, first check 
 ## Reporting Bugs
 Nek5000 is hosted on GitHub and all bugs are reported and tracked through the [Issues](https://github.com/Nek5000/Nek5000/issues) feature on GitHub. However, GitHub Issues should not be used for common troubleshooting purposes. If you are having trouble installing the code or getting your model to run properly, you should first send a message to the User's Group mailing list. If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code, you may create an Issue on GitHub.
 
-## Contributing
-
-Our project is hosted on [GitHub](https://github.com/Nek5000). If you are planning a large contribution, we encourage you to discuss the concept here on GitHub and interact with us frequently to ensure that your effort is well-directed.
-
-### How we do it
-- Anything in master is always deployable
-- Upcoming feature release get their own tags or branch that are branched out of master
-- All development happens on the master branch.
-- To work on something new, create a short lived local branch off of master
-- When you need feedback or help, or your change is ready for merging, open a pull request.
-
-### One-time Setup
+### Setup
 1. Fork our [GitHub project](https://github.com/Nek5000/Nek5000)
 2. Download fork with `git clone -o myfork https://github.com/<username>/Nek5000.git ~/Nek5000`
 3. Add our repo `cd ~/Nek5000; git remote add origin https://github.com/Nek5000/Nek5000.git`
