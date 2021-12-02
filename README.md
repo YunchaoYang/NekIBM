@@ -13,6 +13,9 @@ Visit the NekIBM [User's Guide](https://yunchaoyang.github.io/NekIBM-doc/) and t
 
 ## Capability
 
+- direct-forcing immersed boundary spectral element method for multiphase flow simulations
+- highly scalable parallel double binned ghost particle (DBGP) algorithm 
+
 [![Direct Numerical Simulation of Settling Particles](https://img.youtube.com/vi/b_vJGWxVNRQ/0.jpg)](https://www.youtube.com/watch?v=b_vJGWxVNRQ)
 
 
