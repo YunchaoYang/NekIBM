@@ -11,6 +11,10 @@ Visit the NekIBM [User's Guide](https://yunchaoyang.github.io/NekIBM-doc/) and t
 - [2021 Physical Review Fluids](https://journals.aps.org/prfluids/abstract/10.1103/PhysRevFluids.6.104306)
 - [2021 Theo. Comp. Fluid. Dyn.](https://arxiv.org/pdf/2005.05363)
 
+## Capability
+
+[![Direct Numerical Simulation of Settling Particles](https://img.youtube.com/vi/b_vJGWxVNRQ/0.jpg)](https://www.youtube.com/watch?v=b_vJGWxVNRQ)
+
 
 ## Troubleshooting
 
