@@ -1,9 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=simple
 #SBATCH --mail-type=NONE
-#SBATCH --qos=ccmt
-#SBATCH --account=ccmt
-#SBATCH --mail-user=hityangsir@ufl.edu
 #SBATCH --ntasks=128
 #SBATCH --nodes=8
 #SBATCH --cpus-per-task=1
@@ -21,9 +18,12 @@ echo '#################################################################'
 echo Running on $SLURM_JOB_NUM_NODES nodes with $SLURM_NTASKS tasks.
 echo '#################################################################'
 echo '#################################################################'
-module load intel/2017
-module load openmpi/3.0.0
+# module load intel/2017
+# module load openmpi/3.0.0
+module load intel/2020.0.166   openmpi/4.1.6
 
-srun --mpi=pmix_v1 ./nek5000
+# srun --mpi=pmix_v1 ./nek5000
+srun --mpi=${HPC_PMIX} ./nek5000
+
 sleep 5
 exit 0;
